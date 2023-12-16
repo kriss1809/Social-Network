@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="anchor_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="1004.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.StartController">
+   <children>
+      <TableView fx:id="usersTbl" layoutX="27.0" layoutY="26.0" prefHeight="278.0" prefWidth="268.0">
+        <columns>
+          <TableColumn fx:id="id_utilizator" prefWidth="26.400007247924805" text="ID" />
+          <TableColumn fx:id="prenume" prefWidth="107.20001983642578" text="Prenume" />
+            <TableColumn fx:id="nume" prefWidth="133.20001220703125" text="Nume" />
+        </columns>
+      </TableView>
+      <TableView fx:id="friendshipsTbl" layoutX="609.0" layoutY="26.0" prefHeight="212.0" prefWidth="359.0">
+        <columns>
+          <TableColumn fx:id="user1" prefWidth="101.79998779296875" text="Utilizator1" />
+          <TableColumn fx:id="user2" prefWidth="99.800048828125" text="Utilizator2" />
+            <TableColumn fx:id="data" prefWidth="159.80003356933594" text="Data" />
+        </columns>
+      </TableView>
+      <VBox fx:id="panou_butoane" layoutX="308.0" layoutY="23.0" prefHeight="534.0" prefWidth="278.0">
+         <children>
+            <Button fx:id="adaugare_user" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="423.0" text="Adăugare utilizator">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin></Button>
+            <Button fx:id="modificare_user" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="437.0" text="Modificare utilizator">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="stergere_user" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="404.0" text="Ștergere utilizator">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Button>
+            <Button fx:id="cautare_user" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="430.0" text="Căutare utilizator după id">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Button>
+            <Button fx:id="adaugare_prietenie" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="432.0" text="Solicitare prietenie">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Button>
+            <Button fx:id="modificare_invitatie" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="306.0" text="Modificare status invitatie">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="stergere_prietenie" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="421.0" text="Ștergere prietenie">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Button>
+            <Button fx:id="nr_comunitati" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="412.0" text="Afișare număr comunități">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Button>
+            <Button fx:id="comunitate_sociabila" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="415.0" text="Afișare cea mai sociabilă comunitate">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Button>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="217.0" minWidth="10.0" prefWidth="195.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="88.0" minWidth="0.0" prefWidth="22.599999999999994" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.99999999999997" minWidth="10.0" prefWidth="61.99999999999997" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="minimN" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="185.0" text="Utilizatori cu minim N prieteni">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Button>
+                  <TextField fx:id="input_N" GridPane.columnIndex="2" />
+                  <Label text="N:" GridPane.columnIndex="1" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </GridPane>
+            <Button fx:id="prieteni_luna" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="424.0" text="Afișare prieteni pt. utilizator dat dintr-o lună dată">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Button>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <children>
+                  <Label text="Id user:" />
+                  <Label text="Luna:" GridPane.columnIndex="2" />
+                  <TextField fx:id="input_id_luna" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="input_luna" GridPane.columnIndex="3" />
+               </children>
+            </GridPane>
+            <GridPane>
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="213.4" minWidth="10.0" prefWidth="206.8" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="88.0" minWidth="0.0" prefWidth="9.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.99999999999997" minWidth="10.0" prefWidth="63.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="user_string" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="196.0" text="Afisare utilizatori cu nume - string" />
+                  <TextField fx:id="input_string" GridPane.columnIndex="2" />
+                  <Label prefHeight="18.0" prefWidth="16.0" text="S:" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+      <GridPane fx:id="panou_input" layoutX="27.0" layoutY="388.0" prefHeight="122.0" prefWidth="268.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="146.0" minWidth="10.0" prefWidth="92.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="210.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="label_id" text="ID" />
+            <Label fx:id="label_prenume" text="PRENUME" GridPane.rowIndex="1" />
+            <Label fx:id="label_nume" text="NUME" GridPane.rowIndex="2" />
+            <TextField fx:id="input_id" GridPane.columnIndex="1" />
+            <TextField fx:id="input_prenume" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="input_nume" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <TableView fx:id="tblInvitatii" layoutX="609.0" layoutY="326.0" prefHeight="166.0" prefWidth="359.0">
+        <columns>
+          <TableColumn fx:id="tbl_invitatii_user1" prefWidth="94.20001220703125" text="Utilizator1" />
+          <TableColumn fx:id="tbl_invitatii_user2" prefWidth="91.4000244140625" text="Utilizator2" />
+            <TableColumn fx:id="tbl_invitatii_status" prefWidth="171.99998779296874" text="Status" />
+        </columns>
+      </TableView>
+      <GridPane layoutX="27.0" layoutY="311.0" prefHeight="30.0" prefWidth="268.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="63.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.6" minWidth="10.0" prefWidth="134.40000000000003" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="84.0" minWidth="10.0" prefWidth="71.60000000000002" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="previousButton" mnemonicParsing="false" onAction="#onPrevious" text="Previous" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#onNext" prefHeight="26.0" prefWidth="74.0" text="Next" GridPane.columnIndex="2" />
+            <Label fx:id="pageNumber" alignment="CENTER" prefHeight="18.0" prefWidth="142.0" text="Page 0/0" textAlignment="CENTER" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="27.0" layoutY="350.0" prefHeight="30.0" prefWidth="268.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="182.0" minWidth="10.0" prefWidth="114.59999237060546" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.20000000000002" minWidth="10.0" prefWidth="83.99999999999999" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.20000000000002" minWidth="10.0" prefWidth="71.80000000000001" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="18.0" prefWidth="92.0" text="Nr. elemente/pg:" GridPane.columnSpan="2" />
+            <ComboBox fx:id="cb_pagesize" prefHeight="26.0" prefWidth="73.0" GridPane.columnIndex="1" />
+            <Button fx:id="btn_pagesize" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="93.0" text="Incarca" textAlignment="CENTER" GridPane.columnIndex="2" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="605.0" layoutY="278.0" prefHeight="52.0" prefWidth="368.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="50.400000000000006" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.4" minWidth="10.0" prefWidth="44.79999999999999" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.2" minWidth="10.0" prefWidth="54.400000000000006" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.59999999999997" minWidth="10.0" prefWidth="42.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.59999999999997" minWidth="10.0" prefWidth="46.599999999999994" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.59999999999997" minWidth="10.0" prefWidth="121.80000000000001" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="input_prieten1" prefHeight="26.0" prefWidth="89.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="input_prieten2" prefHeight="26.0" prefWidth="48.0" GridPane.columnIndex="3">
+               <GridPane.margin>
+                  <Insets right="3.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label text="Id user1:" />
+            <Label text="Id user2:" GridPane.columnIndex="2" />
+            <Label text="Status:" GridPane.columnIndex="4" />
+            <ComboBox fx:id="combo_status" prefHeight="26.0" prefWidth="129.0" GridPane.columnIndex="5" />
+            <HBox prefHeight="52.0" prefWidth="359.0" GridPane.columnIndex="2" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="609.0" layoutY="247.0" prefHeight="30.0" prefWidth="359.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="63.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.20000000000002" minWidth="10.0" prefWidth="178.20000000000002" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="84.0" minWidth="10.0" prefWidth="69.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="previousButton2" mnemonicParsing="false" onAction="#onPrevious2" prefHeight="26.0" prefWidth="73.0" text="Previous" />
+            <Button fx:id="nextButton2" mnemonicParsing="false" onAction="#onNext2" prefHeight="26.0" prefWidth="125.0" text="Next" GridPane.columnIndex="2" />
+            <Label fx:id="pageNumber2" alignment="CENTER" prefHeight="18.0" prefWidth="200.0" text="Page 0/0" textAlignment="CENTER" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="609.0" layoutY="495.0" prefHeight="30.0" prefWidth="359.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="63.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.20000000000002" minWidth="10.0" prefWidth="178.20000000000002" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="84.0" minWidth="10.0" prefWidth="69.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="previousButton3" mnemonicParsing="false" onAction="#onPrevious3" prefHeight="26.0" prefWidth="73.0" text="Previous" />
+            <Button fx:id="nextButton3" mnemonicParsing="false" onAction="#onNext3" prefHeight="26.0" prefWidth="125.0" text="Next" GridPane.columnIndex="2" />
+            <Label fx:id="pageNumber3" alignment="CENTER" prefHeight="18.0" prefWidth="200.0" text="Page 0/0" textAlignment="CENTER" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

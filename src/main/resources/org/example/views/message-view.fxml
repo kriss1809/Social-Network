@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.MessageController">
+   <children>
+      <TableView fx:id="messageTbl" layoutX="28.0" layoutY="27.0" prefHeight="200.0" prefWidth="543.0">
+        <columns>
+          <TableColumn fx:id="id_mesaj" prefWidth="39.20001220703125" text="Id" />
+          <TableColumn fx:id="id_emitator" prefWidth="74.0" text="From" />
+            <TableColumn fx:id="id_receptor" prefWidth="82.5999755859375" text="To" />
+            <TableColumn fx:id="text" prefWidth="173.4000244140625" text="Text" />
+            <TableColumn fx:id="raspuns" prefWidth="70.60003662109375" text="Reply" />
+            <TableColumn fx:id="data" prefWidth="105.20001220703125" text="Data" />
+        </columns>
+      </TableView>
+      <GridPane layoutX="28.0" layoutY="283.0" prefHeight="186.0" prefWidth="248.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="From" GridPane.rowIndex="1" />
+            <Label text="To" GridPane.rowIndex="2" />
+            <Label text="Text" GridPane.rowIndex="3" />
+            <Label text="Reply" GridPane.rowIndex="4" />
+            <TextArea fx:id="input_text" prefHeight="6.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin></TextArea>
+            <TextField fx:id="input_emitator" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="3.0" />
+               </GridPane.margin></TextField>
+            <TextField fx:id="input_receptor" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="3.0" />
+               </GridPane.margin></TextField>
+            <TextField fx:id="input_raspuns" prefHeight="25.0" prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets bottom="3.0" top="3.0" />
+               </GridPane.margin></TextField>
+            <Label text="Id mesaj" />
+            <TextField fx:id="input_id_mesaj" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="3.0" />
+               </GridPane.margin></TextField>
+         </children>
+      </GridPane>
+      <VBox layoutX="323.0" layoutY="288.0" prefHeight="175.0" prefWidth="248.0">
+         <children>
+            <GridPane>
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="92.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="78.0" minWidth="10.0" prefWidth="74.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="btn_pagesize" mnemonicParsing="false" onAction="#handleMessagePanelClicks" prefHeight="26.0" prefWidth="72.0" text="Incarca" GridPane.columnIndex="2" />
+                  <ComboBox fx:id="cb_pagesize" prefHeight="26.0" prefWidth="75.0" GridPane.columnIndex="1" />
+                  <Label text="Nr elemente:" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </GridPane>
+            <Button fx:id="btn_trimitere_mesaj" mnemonicParsing="false" onAction="#handleMessagePanelClicks" prefHeight="0.0" prefWidth="248.0" text="Trimitere mesaj">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Button>
+            <GridPane prefHeight="67.0" prefWidth="137.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="44.800000000000004" minHeight="0.0" prefHeight="21.6" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="44.800000000000004" minHeight="0.0" prefHeight="23.200000000000003" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Id user2" GridPane.rowIndex="1" />
+                  <TextField fx:id="input_user2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="input_user1" GridPane.columnIndex="1" />
+                  <Label text="Id user1" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </GridPane>
+            <Button fx:id="btn_afisare_mesaje" mnemonicParsing="false" onAction="#handleMessagePanelClicks" prefHeight="26.0" prefWidth="298.0" text="Afișare mesaje a 2 utilizatori" />
+         </children>
+      </VBox>
+      <GridPane alignment="CENTER" layoutX="28.0" layoutY="236.0" prefHeight="30.0" prefWidth="543.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.20000762939452" minWidth="10.0" prefWidth="233.20000762939452" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="422.60000762939455" minWidth="10.0" prefWidth="241.19999237060546" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="61.60000000000002" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="previousButton4" mnemonicParsing="false" onAction="#onPrevious4" text="Previous" />
+            <Button fx:id="nextButton4" mnemonicParsing="false" onAction="#onNext4" prefHeight="26.0" prefWidth="70.0" text="Next" GridPane.columnIndex="2" />
+            <Label fx:id="pageNumber4" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="75.0" text="Page 0/0" textAlignment="CENTER" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
