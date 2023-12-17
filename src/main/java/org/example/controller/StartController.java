@@ -366,10 +366,10 @@ public class StartController implements Observer<ChangeEvent> {
         Long id = Long.parseLong(idString);
         String FirstName=input_prenume.getText();
         String LastName=input_nume.getText();
-        Utilizator u = new Utilizator(FirstName,LastName);
+        Utilizator u = new Utilizator(FirstName,LastName, "username");
         u.setId(id);
         try {
-            service.adaugare_utilizator(u.getId(), u.getFirstName(),u.getLastName());
+            service.adaugare_utilizator(u.getId(), u.getFirstName(),u.getLastName(), "username");
             MessageAlert.showMessage(null, Alert.AlertType.CONFIRMATION,"Adaugare","utilizatorul a fost salvat cu succes");
         } catch (ValidationException e) {
             MessageAlert.showMessage(null,Alert.AlertType.ERROR,"Adaugarea a esuat",e.getMessage());

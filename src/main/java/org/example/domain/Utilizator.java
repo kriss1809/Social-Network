@@ -9,10 +9,21 @@ public class Utilizator extends Entity<Long> {
     private String lastName;
     private List<Utilizator> friends;
 
-    public Utilizator(String firstName, String lastName) {
+    private String username;
+
+    public Utilizator(String firstName, String lastName, String username) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         friends=new ArrayList<Utilizator>();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {

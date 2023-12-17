@@ -9,6 +9,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.controller.MessageController;
 import org.example.controller.StartController;
+import org.example.domain.Parola;
+import org.example.domain.Utilizator;
 import org.example.domain.validators.Validator;
 import org.example.repository.DataBaseRepository.*;
 import org.example.service.Service;

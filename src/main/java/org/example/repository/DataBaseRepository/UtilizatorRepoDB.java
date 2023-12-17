@@ -19,42 +19,42 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
     {
         String firstName = r.getString("first_name");
         String lastName = r.getString("last_name");
-        //String username = r.getString("username");
-        Utilizator u = new Utilizator(firstName, lastName);
+        String username = r.getString("username");
+        Utilizator u = new Utilizator(firstName, lastName, username);
         u.setId(id);
-        fetchFriendsForUtilizator(u);
+        //fetchFriendsForUtilizator(u);
         return Optional.of(u);
     }
 
-    private void fetchFriendsForUtilizator(Utilizator utilizator) {
-        String fetchFriendsStatement =
-                "SELECT u.id, u.first_name, u.last_name " +
-                        "FROM friendship f " +
-                        "JOIN users u ON (f.id_user1 = u.id OR f.id_user2 = u.id) " +
-                        "WHERE f.id_user1 = ? OR f.id_user2 = ?";
-
-        try {
-            PreparedStatement st = data.createStatement(fetchFriendsStatement);
-            st.setLong(1, utilizator.getId());
-            st.setLong(2, utilizator.getId());
-
-            ResultSet resultSet = st.executeQuery();
-
-            while (resultSet.next()) {
-                Long friendId = resultSet.getLong("id");
-                String friendFirstName = resultSet.getString("first_name");
-                String friendLastName = resultSet.getString("last_name");
-
-                Utilizator friend = new Utilizator(friendFirstName, friendLastName);
-                friend.setId(friendId);
-
-                if(friendId!=utilizator.getId())
-                    utilizator.getFriends().add(friend);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    private void fetchFriendsForUtilizator(Utilizator utilizator) {
+//        String fetchFriendsStatement =
+//                "SELECT u.id, u.first_name, u.last_name " +
+//                        "FROM friendship f " +
+//                        "JOIN users u ON (f.id_user1 = u.id OR f.id_user2 = u.id) " +
+//                        "WHERE f.id_user1 = ? OR f.id_user2 = ?";
+//
+//        try {
+//            PreparedStatement st = data.createStatement(fetchFriendsStatement);
+//            st.setLong(1, utilizator.getId());
+//            st.setLong(2, utilizator.getId());
+//
+//            ResultSet resultSet = st.executeQuery();
+//
+//            while (resultSet.next()) {
+//                Long friendId = resultSet.getLong("id");
+//                String friendFirstName = resultSet.getString("first_name");
+//                String friendLastName = resultSet.getString("last_name");
+//
+//                Utilizator friend = new Utilizator(friendFirstName, friendLastName);
+//                friend.setId(friendId);
+//
+//                if(friendId!=utilizator.getId())
+//                    utilizator.getFriends().add(friend);
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 
 
@@ -73,6 +73,33 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
             ResultSet resultSet=st.executeQuery();
             if(resultSet.next())
                 return getUtilizator(resultSet,id);
+            return Optional.empty();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Optional<Utilizator> findOneUsername(String username)
+    {
+        if (username==null)
+        {
+            throw new IllegalArgumentException("Username is null!");
+        }
+
+        String findOneStatement = "SELECT * FROM users WHERE username = ?";
+        try{
+            PreparedStatement st = data.createStatement(findOneStatement);
+            st.setString(1, username);
+            ResultSet r=st.executeQuery();
+            if(r.next()) {
+                String firstName = r.getString("first_name");
+                String lastName = r.getString("last_name");
+                Utilizator u = new Utilizator(firstName, lastName, username);
+               // fetchFriendsForUtilizator(u);
+                return Optional.of(u);
+            }
             return Optional.empty();
         }
         catch (SQLException e)

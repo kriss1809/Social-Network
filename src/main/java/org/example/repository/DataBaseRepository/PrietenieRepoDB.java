@@ -27,9 +27,9 @@ public class PrietenieRepoDB extends AbstractDBRepository<Tuple<Long, Long>, Pri
         String firstName2 = resultSet.getString("firstNameU2");
         String lastName2 = resultSet.getString("lastNameU2");
 
-        Utilizator user1 = new Utilizator(firstName1, lastName1);
+        Utilizator user1 = new Utilizator(firstName1, lastName1, "username1");
         user1.setId(id_user1);
-        Utilizator user2 = new Utilizator(firstName2, lastName2);
+        Utilizator user2 = new Utilizator(firstName2, lastName2, "username2");
         user2.setId(id_user2);
         Timestamp friendsfrom = resultSet.getTimestamp("friendsfrom");
         Prietenie friendship = new Prietenie(user1, user2, friendsfrom.toLocalDateTime());

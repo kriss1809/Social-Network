@@ -70,7 +70,7 @@ public class Service implements Observable<ChangeEvent>{
         return invitationRepo.findAllPage(p);
     }
 
-    public void adaugare_utilizator(Long ID, String prenume, String nume)
+    public void adaugare_utilizator(Long ID, String prenume, String nume, String username)
     {
         // verificam daca ID-ul exista deja
         Optional<Utilizator> u2 = userRepo.findOne(ID);
@@ -79,7 +79,7 @@ public class Service implements Observable<ChangeEvent>{
                     throw new ValidationException("Exista deja un utilizator cu acest ID!");
                 },
                 () -> {
-                    Utilizator u = new Utilizator(prenume, nume);
+                    Utilizator u = new Utilizator(prenume, nume, username);
                     u.setId(ID);
                     userRepo.save(u);
                     notify(new ChangeEvent(ChangeEventType.ADD, u));
@@ -90,12 +90,12 @@ public class Service implements Observable<ChangeEvent>{
     public void modificare_utilizator(Long id, String FirstName, String LastName)
     {
         Optional<Utilizator> existent = userRepo.findOne(id);
-        Utilizator newUser= new Utilizator(FirstName,LastName);
-        newUser.setId(id);
-        if(existent==null){
+        if(existent.isEmpty()){
             throw new ValidationException("Nu exista un utilizator cu acest ID!");
         }
         else {
+            Utilizator newUser= new Utilizator(FirstName,LastName, existent.get().getUsername());
+            newUser.setId(id);
             userRepo.update(newUser);
             notify(new ChangeEvent(ChangeEventType.UPDATE, newUser));
         }
@@ -124,6 +124,14 @@ public class Service implements Observable<ChangeEvent>{
             throw new ValidationException("Utilizatorul nu exista");
     }
 
+    public Optional<Utilizator> cautare_utilizator_username(String username)
+    {
+        Optional<Utilizator> u = userRepo.findOneUsername(username);
+        if(u.isPresent())
+            return u;
+        else
+            throw new ValidationException("Utilizatorul nu exista");
+    }
     public void adaugare_prieten(Long ID, Long fID)
     {
         Optional<Utilizator> userOptional1 = userRepo.findOne(ID);
