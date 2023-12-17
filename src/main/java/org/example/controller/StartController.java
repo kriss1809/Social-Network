@@ -36,6 +36,8 @@ public class StartController implements Observer<ChangeEvent> {
     TableColumn<Utilizator, String> prenume;
     @FXML
     TableColumn<Utilizator, String> nume;
+    @FXML
+    TableColumn<Utilizator, String> username;
     ObservableList<Utilizator> usersModel = FXCollections.observableArrayList();
 
     // tabel prietenii
@@ -88,7 +90,7 @@ public class StartController implements Observer<ChangeEvent> {
 
     // text field-uri
     @FXML
-    private TextField input_id;
+    private TextField input_username;
     @FXML
     private TextField input_prenume;
     @FXML
@@ -172,6 +174,7 @@ public class StartController implements Observer<ChangeEvent> {
         id_utilizator.setCellValueFactory(new PropertyValueFactory<Utilizator,Long>("id"));
         prenume.setCellValueFactory(new PropertyValueFactory<Utilizator,String>("firstName"));
         nume.setCellValueFactory(new PropertyValueFactory<Utilizator,String>("lastName"));
+        username.setCellValueFactory(new PropertyValueFactory<Utilizator,String>("username"));
         usersTbl.setItems(usersModel);
     }
 
@@ -362,14 +365,12 @@ public class StartController implements Observer<ChangeEvent> {
 
     private void gui_adaugare_user()
     {
-        String idString = input_id.getText();
-        Long id = Long.parseLong(idString);
+        String username = input_username.getText();
         String FirstName=input_prenume.getText();
         String LastName=input_nume.getText();
-        Utilizator u = new Utilizator(FirstName,LastName, "username");
-        u.setId(id);
+        Utilizator u = new Utilizator(FirstName,LastName, username);
         try {
-            service.adaugare_utilizator(u.getId(), u.getFirstName(),u.getLastName(), "username");
+            service.adaugare_utilizator(u.getFirstName(),u.getLastName(), u.getUsername());
             MessageAlert.showMessage(null, Alert.AlertType.CONFIRMATION,"Adaugare","utilizatorul a fost salvat cu succes");
         } catch (ValidationException e) {
             MessageAlert.showMessage(null,Alert.AlertType.ERROR,"Adaugarea a esuat",e.getMessage());
@@ -377,7 +378,7 @@ public class StartController implements Observer<ChangeEvent> {
 
         input_nume.setText("");
         input_prenume.setText("");
-        input_id.setText("");
+        input_username.setText("");
 
 //        initUsersModel();
 //        initFriendshipsModel();
@@ -386,19 +387,18 @@ public class StartController implements Observer<ChangeEvent> {
 
     private void gui_modificare_user(Utilizator selected)
     {
-        String idString = input_id.getText();
-        Long id = Long.parseLong(idString);
+        String username = input_username.getText();
         String FirstName = input_prenume.getText();
         String LastName = input_nume.getText();
         try {
-            service.modificare_utilizator(id, FirstName, LastName);
+            service.modificare_utilizator(FirstName, LastName, username);
             MessageAlert.showMessage(null, Alert.AlertType.CONFIRMATION, "Modificare", "Utilizatorul a fost modificat cu succes.");
         } catch (ValidationException e) {
             MessageAlert.showMessage(null, Alert.AlertType.ERROR, "Modificarea a esuat", e.getMessage());
         }
         input_nume.setText("");
         input_prenume.setText("");
-        input_id.setText("");
+        input_username.setText("");
 //        initUsersModel();
 //        initFriendshipsModel();
 //        initInvitationsModel();
@@ -443,17 +443,16 @@ public class StartController implements Observer<ChangeEvent> {
 
     private void  gui_cautare_user()
     {
-        String idString = input_id.getText();
-        Long id = Long.parseLong(idString);
+        String username = input_username.getText();
         try
         {
-            Optional<Utilizator> u = service.cautare_utilizator(id);
+            Optional<Utilizator> u = service.cautare_utilizator_username(username);
             MessageAlert.showMessage(null, Alert.AlertType.CONFIRMATION,"Cautare",u.get().toString());
         }
         catch (ValidationException ex) {
             MessageAlert.showMessage(null, Alert.AlertType.ERROR, "Cautarea a esuat", ex.getMessage());
         }
-        input_id.setText("");
+        input_username.setText("");
     }
 
     private void  gui_adaugare_invitatie()

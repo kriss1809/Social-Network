@@ -49,8 +49,6 @@ public class MessageController implements Observer<ChangeEvent> {
     private Button btn_afisare_mesaje;
 
     @FXML
-    private TextField input_id_mesaj;
-    @FXML
     private TextArea input_text;
     @FXML
     private TextField input_emitator;
@@ -169,8 +167,6 @@ public class MessageController implements Observer<ChangeEvent> {
 
     private void gui_adaugare_mesaj()
     {
-        String idString = input_id_mesaj.getText();
-        Long id_msg = Long.parseLong(idString);
         String idString1 = input_emitator.getText();
         Long id_emitator = Long.parseLong(idString1);
         String idString2 = input_receptor.getText();
@@ -184,7 +180,7 @@ public class MessageController implements Observer<ChangeEvent> {
             raspuns = Long.parseLong(idString3);
         try {
             for(int i = 0; i<receptori.length; ++i)
-                service.adaugare_mesaj(id_msg+i, id_emitator, Long.parseLong(receptori[i]), text, LocalDateTime.now(), raspuns);
+                service.adaugare_mesaj(id_emitator, Long.parseLong(receptori[i]), text, LocalDateTime.now(), raspuns);
 
             MessageAlert.showMessage(null, Alert.AlertType.CONFIRMATION,"Adaugare","Mesajul a fost salvat cu succes");
         } catch (ValidationException e) {
@@ -194,7 +190,6 @@ public class MessageController implements Observer<ChangeEvent> {
        // initializeTableMessages();
        // initMessageModel();
 
-        input_id_mesaj.setText("");
         input_emitator.setText("");
         input_receptor.setText("");
         input_text.setText("");

@@ -9,8 +9,9 @@
       <TableView fx:id="usersTbl" layoutX="27.0" layoutY="26.0" prefHeight="278.0" prefWidth="268.0">
         <columns>
           <TableColumn fx:id="id_utilizator" prefWidth="26.400007247924805" text="ID" />
-          <TableColumn fx:id="prenume" prefWidth="107.20001983642578" text="Prenume" />
-            <TableColumn fx:id="nume" prefWidth="133.20001220703125" text="Nume" />
+          <TableColumn fx:id="prenume" prefWidth="73.0" text="Prenume" />
+            <TableColumn fx:id="nume" prefWidth="84.79998779296875" text="Nume" />
+            <TableColumn fx:id="username" prefWidth="81.60000610351562" text="Username" />
         </columns>
       </TableView>
       <TableView fx:id="friendshipsTbl" layoutX="609.0" layoutY="26.0" prefHeight="212.0" prefWidth="359.0">
@@ -35,7 +36,7 @@
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></Button>
-            <Button fx:id="cautare_user" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="430.0" text="Căutare utilizator după id">
+            <Button fx:id="cautare_user" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="430.0" text="Căutare utilizator după username">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></Button>
@@ -139,10 +140,10 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="label_id" text="ID" />
+            <Label fx:id="label_id" text="USERNAME" />
             <Label fx:id="label_prenume" text="PRENUME" GridPane.rowIndex="1" />
             <Label fx:id="label_nume" text="NUME" GridPane.rowIndex="2" />
-            <TextField fx:id="input_id" GridPane.columnIndex="1" />
+            <TextField fx:id="input_username" GridPane.columnIndex="1" />
             <TextField fx:id="input_prenume" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="input_nume" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>

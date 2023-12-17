@@ -141,19 +141,18 @@ public class MessageRepoDB implements PagingRepository<Long, Message>{
     }
 
     public Optional<Message> save(Message entity) {
-        String insertSQL="INSERT INTO messages(id, sender_id,receiver_id, message, data, raspuns_la) values(?,?,?,?,?,?)";
+        String insertSQL="INSERT INTO messages(sender_id,receiver_id, message, data, raspuns_la) values(?,?,?,?,?)";
         try
         {
             PreparedStatement statement= data.createStatement(insertSQL);
-            statement.setLong(1, entity.getId());
-            statement.setLong(2,entity.getFrom());
-            statement.setLong(3,entity.getTo());
-            statement.setString(4,entity.getMessage());
-            statement.setTimestamp(5, Timestamp.valueOf(entity.getData()));
+            statement.setLong(1,entity.getFrom());
+            statement.setLong(2,entity.getTo());
+            statement.setString(3,entity.getMessage());
+            statement.setTimestamp(4, Timestamp.valueOf(entity.getData()));
             if(entity.getReply() != null)
-                statement.setLong(6,entity.getReply());
+                statement.setLong(5,entity.getReply());
             else
-                statement.setLong(6,-1);
+                statement.setLong(5,-1);
             int response=statement.executeUpdate();
             return response==0?Optional.of(entity):Optional.empty();
         }

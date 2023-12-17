@@ -74,7 +74,7 @@ public class SignupController implements Observer<ChangeEvent> {
                 {
                     Utilizator user = new Utilizator(nume, prenume, username);
                     try {
-                        service.adaugare_utilizator(100L, user.getFirstName(), user.getLastName(), user.getUsername());
+                        service.adaugare_utilizator(user.getFirstName(), user.getLastName(), user.getUsername());
                         MessageAlert.showMessage(null, Alert.AlertType.CONFIRMATION,"CONTUL A FOST CREAT","Inchide fereastra pentru a te intoarce la Autentificare.");
                     } catch (ValidationException e) {
                         MessageAlert.showMessage(null,Alert.AlertType.ERROR,"CREAREA CONTULUI A ESUAT",e.getMessage());

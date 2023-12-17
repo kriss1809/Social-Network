@@ -21,40 +21,41 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
         String lastName = r.getString("last_name");
         String username = r.getString("username");
         Utilizator u = new Utilizator(firstName, lastName, username);
-        u.setId(id);
-        //fetchFriendsForUtilizator(u);
+        u.setId(r.getLong("id"));
+        fetchFriendsForUtilizator(u);
         return Optional.of(u);
     }
 
-//    private void fetchFriendsForUtilizator(Utilizator utilizator) {
-//        String fetchFriendsStatement =
-//                "SELECT u.id, u.first_name, u.last_name " +
-//                        "FROM friendship f " +
-//                        "JOIN users u ON (f.id_user1 = u.id OR f.id_user2 = u.id) " +
-//                        "WHERE f.id_user1 = ? OR f.id_user2 = ?";
-//
-//        try {
-//            PreparedStatement st = data.createStatement(fetchFriendsStatement);
-//            st.setLong(1, utilizator.getId());
-//            st.setLong(2, utilizator.getId());
-//
-//            ResultSet resultSet = st.executeQuery();
-//
-//            while (resultSet.next()) {
-//                Long friendId = resultSet.getLong("id");
-//                String friendFirstName = resultSet.getString("first_name");
-//                String friendLastName = resultSet.getString("last_name");
-//
-//                Utilizator friend = new Utilizator(friendFirstName, friendLastName);
-//                friend.setId(friendId);
-//
-//                if(friendId!=utilizator.getId())
-//                    utilizator.getFriends().add(friend);
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    private void fetchFriendsForUtilizator(Utilizator utilizator) {
+        String fetchFriendsStatement =
+                "SELECT u.id, u.first_name, u.last_name, u.username " +
+                        "FROM friendship f " +
+                        "JOIN users u ON (f.id_user1 = u.id OR f.id_user2 = u.id) " +
+                        "WHERE f.id_user1 = ? OR f.id_user2 = ?";
+
+        try {
+            PreparedStatement st = data.createStatement(fetchFriendsStatement);
+            st.setLong(1, utilizator.getId());
+            st.setLong(2, utilizator.getId());
+
+            ResultSet resultSet = st.executeQuery();
+
+            while (resultSet.next()) {
+                Long friendId = resultSet.getLong("id");
+                String friendFirstName = resultSet.getString("first_name");
+                String friendLastName = resultSet.getString("last_name");
+                String friendUsername= resultSet.getString("username");
+
+                Utilizator friend = new Utilizator(friendFirstName, friendLastName, friendUsername);
+                friend.setId(friendId);
+
+                if(friendId!=utilizator.getId())
+                    utilizator.getFriends().add(friend);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 
@@ -97,6 +98,7 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
                 String firstName = r.getString("first_name");
                 String lastName = r.getString("last_name");
                 Utilizator u = new Utilizator(firstName, lastName, username);
+                u.setId(r.getLong("id"));
                // fetchFriendsForUtilizator(u);
                 return Optional.of(u);
             }
@@ -166,13 +168,13 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
 
     @Override
     public Optional<Utilizator> save(Utilizator entity) {
-        String insertSQL="INSERT INTO users(id, first_name,last_name) values(?,?,?)";
+        String insertSQL="INSERT INTO users(first_name,last_name, username) values(?,?,?)";
         try
         {
             PreparedStatement statement= data.createStatement(insertSQL);
-            statement.setObject(1, entity.getId(), java.sql.Types.BIGINT);
-            statement.setString(2,entity.getFirstName());
-            statement.setString(3,entity.getLastName());
+            statement.setString(1,entity.getFirstName());
+            statement.setString(2,entity.getLastName());
+            statement.setString(3, entity.getUsername());
             int response=statement.executeUpdate();
             return response==0?Optional.of(entity):Optional.empty();
         }
@@ -187,7 +189,7 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
         Optional<Utilizator> entity=findOne(id);
         if(id!=null)
         {
-            String deleteStatement="DELETE FROM "+table+" where id="+id;
+            String deleteStatement="DELETE FROM users where id="+id;
             int response=0;
             try
             {
@@ -215,12 +217,12 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
         if (entity == null) {
             throw new RepositoryException("Entity must not be null");
         }
-        String updateStatement = "UPDATE users SET first_name=?, last_name=? WHERE id=?";
+        String updateStatement = "UPDATE users SET first_name=?, last_name=? WHERE username=?";
         try {
             PreparedStatement statement = data.createStatement(updateStatement);
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
-            statement.setLong(3, entity.getId());
+            statement.setString(3, entity.getUsername());
             int response = statement.executeUpdate();
             return response == 0 ? Optional.of(entity) : Optional.empty();
         } catch (SQLException e) {

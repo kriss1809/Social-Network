@@ -8,7 +8,6 @@ public class Utilizator extends Entity<Long> {
     private String firstName;
     private String lastName;
     private List<Utilizator> friends;
-
     private String username;
 
     public Utilizator(String firstName, String lastName, String username) {
@@ -57,7 +56,7 @@ public class Utilizator extends Entity<Long> {
                 .reduce((friend1, friend2) -> friend1 + ", " + friend2)
                 .orElse("-") : "-";
 
-        return "ID: " + id + "; utilizator:" + firstName + " " + lastName + "; prieteni: " + friendList;
+        return "ID: " + id + "; username:" + username + "; prieteni: " + friendList;
     }
 
     @Override

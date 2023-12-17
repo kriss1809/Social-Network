@@ -31,7 +31,7 @@ public class StartApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        String url="jdbc:postgresql://localhost:5432/socialnetwork";
+        String url="jdbc:postgresql://localhost:5432/social_network";
         String username="postgres";
         String password="18Kriss2003";
 

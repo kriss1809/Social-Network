@@ -70,32 +70,30 @@ public class Service implements Observable<ChangeEvent>{
         return invitationRepo.findAllPage(p);
     }
 
-    public void adaugare_utilizator(Long ID, String prenume, String nume, String username)
+    public void adaugare_utilizator(String prenume, String nume, String username)
     {
-        // verificam daca ID-ul exista deja
-        Optional<Utilizator> u2 = userRepo.findOne(ID);
+        // verificam daca username-ul exista deja
+        Optional<Utilizator> u2 = userRepo.findOneUsername(username);
         u2.ifPresentOrElse(
                 u -> {
-                    throw new ValidationException("Exista deja un utilizator cu acest ID!");
+                    throw new ValidationException("Exista deja un utilizator cu acest username!");
                 },
                 () -> {
                     Utilizator u = new Utilizator(prenume, nume, username);
-                    u.setId(ID);
                     userRepo.save(u);
                     notify(new ChangeEvent(ChangeEventType.ADD, u));
                 }
         );
     }
 
-    public void modificare_utilizator(Long id, String FirstName, String LastName)
+    public void modificare_utilizator(String FirstName, String LastName, String username)
     {
-        Optional<Utilizator> existent = userRepo.findOne(id);
+        Optional<Utilizator> existent = userRepo.findOneUsername(username);
         if(existent.isEmpty()){
-            throw new ValidationException("Nu exista un utilizator cu acest ID!");
+            throw new ValidationException("Nu exista un utilizator cu acest username!");
         }
         else {
             Utilizator newUser= new Utilizator(FirstName,LastName, existent.get().getUsername());
-            newUser.setId(id);
             userRepo.update(newUser);
             notify(new ChangeEvent(ChangeEventType.UPDATE, newUser));
         }
@@ -297,21 +295,14 @@ public class Service implements Observable<ChangeEvent>{
         return userRepo.utilizatori_string(text);
     }
 
-    public void adaugare_mesaj(Long id, Long id1, Long id2, String text, LocalDateTime data, Long raspuns)
+    public void adaugare_mesaj(Long id1, Long id2, String text, LocalDateTime data, Long raspuns)
     {
-        Optional<Message> m2 = messageRepo.find(id);
-        m2.ifPresentOrElse(
-                msg -> {
-                    throw new ValidationException("Exista deja un mesaj cu acest ID!");
-                },
-                () -> {
-                    Message msg = new Message(id1, id2, text, data);
-                    msg.setId(id);
-                    msg.setReply(raspuns);
-                    messageRepo.save(msg);
-                    notify(new ChangeEvent(ChangeEventType.ADD, msg));
-                }
-        );
+
+        Message msg = new Message(id1, id2, text, data);
+        msg.setReply(raspuns);
+        messageRepo.save(msg);
+        notify(new ChangeEvent(ChangeEventType.ADD, msg));
+
     }
 
     public static String afisare_mesaje(Long id_user1, Long id_user2)
