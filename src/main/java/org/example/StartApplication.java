@@ -7,10 +7,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.example.controller.LoginController;
 import org.example.controller.MessageController;
 import org.example.controller.StartController;
-import org.example.domain.Parola;
-import org.example.domain.Utilizator;
 import org.example.domain.validators.Validator;
 import org.example.repository.DataBaseRepository.*;
 import org.example.service.Service;
@@ -26,6 +25,7 @@ public class StartApplication extends Application {
     private PrietenieRepoDB repoFriendship;
     private MessageRepoDB repoMessage;
     private InvitationRepoDB repoInvitation;
+    private ParolaRepoDB repoParola;
     public Service service;
 
     @Override
@@ -47,17 +47,31 @@ public class StartApplication extends Application {
         this.repoFriendship = new PrietenieRepoDB(val, data, "friendship");
         this.repoMessage = new MessageRepoDB(val, data, "messages");
         this.repoInvitation = new InvitationRepoDB(val, data, "invitations");
-        this.service = new Service(val, repoUser, repoFriendship, repoMessage, repoInvitation);
+        this.repoParola = new ParolaRepoDB(val, data, "parole");
+        this.service = new Service(val, repoUser, repoFriendship, repoMessage, repoInvitation, repoParola);
 
-        initView(primaryStage);
+        //initView(primaryStage);
+        init(primaryStage);
         primaryStage.show();
+    }
+
+    private void init(Stage primaryStage) throws IOException
+    {
+        FXMLLoader stageLoader = new FXMLLoader();
+        stageLoader.setLocation(getClass().getResource("/org/example/views/login-view.fxml"));
+        AnchorPane setLayout = stageLoader.load();
+        primaryStage.setTitle("Social Network");
+        primaryStage.setScene(new Scene(setLayout, Color.BEIGE));
+
+        LoginController ctrl = stageLoader.getController();
+        ctrl.setService(service);
     }
 
     private void initView(Stage primaryStage) throws IOException{
         FXMLLoader stageLoader = new FXMLLoader();
         stageLoader.setLocation(getClass().getResource("/org/example/views/start-view.fxml"));
         AnchorPane setLayout = stageLoader.load();
-        primaryStage.setTitle("Social Network");
+        primaryStage.setTitle("Autentificare");
         primaryStage.setScene(new Scene(setLayout, Color.BEIGE));
 
         StartController ctrl = stageLoader.getController();

@@ -4,7 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.example.domain.Parola;
 import org.example.domain.Utilizator;
 import org.example.domain.validators.ValidationException;
 import org.example.service.Service;
@@ -22,9 +24,9 @@ public class SignupController implements Observer<ChangeEvent> {
     @FXML
     private TextField input_username;
     @FXML
-    private TextField input_parola;
+    private PasswordField input_parola;
     @FXML
-    private TextField input_parola2;
+    private PasswordField input_parola2;
     @FXML
     private TextField input_nume;
     @FXML
@@ -72,12 +74,17 @@ public class SignupController implements Observer<ChangeEvent> {
                 }
                 else
                 {
-                    Utilizator user = new Utilizator(nume, prenume, username);
                     try {
-                        service.adaugare_utilizator(user.getFirstName(), user.getLastName(), user.getUsername());
-                        MessageAlert.showMessage(null, Alert.AlertType.CONFIRMATION,"CONTUL A FOST CREAT","Inchide fereastra pentru a te intoarce la Autentificare.");
+                        service.adaugare_utilizator(nume, prenume, username);
+                        if(service.cautare_utilizator_username(username).isPresent())
+                        {
+                            Parola p = new Parola(parola, username);
+                            String parola_criptata = p.criptare();
+                            service.adaugare_parola(username, parola_criptata);
+                        }
+                        MessageAlert.showMessage(null, Alert.AlertType.CONFIRMATION, "CONTUL A FOST CREAT", "Inchide fereastra pentru a te intoarce la Autentificare.");
                     } catch (ValidationException e) {
-                        MessageAlert.showMessage(null,Alert.AlertType.ERROR,"CREAREA CONTULUI A ESUAT",e.getMessage());
+                        MessageAlert.showMessage(null, Alert.AlertType.ERROR, "CREAREA CONTULUI A ESUAT", e.getMessage());
                     }
                 }
             }

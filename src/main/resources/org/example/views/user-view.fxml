@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="503.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.UserController">
+   <children>
+      <VBox prefHeight="503.0" prefWidth="231.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="18.0" prefWidth="339.0" text="CERERI DE PRIETENIE" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TableView prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="102.6000064611435" text="username" />
+                <TableColumn prefWidth="106.4" text="status prietenie" />
+              </columns>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

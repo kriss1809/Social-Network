@@ -3,10 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="218.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="218.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.LoginController">
    <children>
       <Label alignment="CENTER" layoutX="110.0" layoutY="14.0" text="AUTENTIFICARE" textAlignment="CENTER" />
-      <GridPane fx:id="input_parola" layoutX="25.0" layoutY="50.0" prefHeight="61.0" prefWidth="255.0">
+      <GridPane layoutX="25.0" layoutY="50.0" prefHeight="61.0" prefWidth="255.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="81.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="181.0" minWidth="10.0" prefWidth="175.0" />
@@ -18,11 +18,11 @@
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" text="Username:" textAlignment="CENTER" />
             <Label text="Parola:" GridPane.rowIndex="1" />
-            <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <PasswordField fx:id="input_parola" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="input_username" GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <Button fx:id="btn_login" layoutX="60.0" layoutY="122.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="188.0" text="LOGIN" />
+      <Button fx:id="btn_login" layoutX="60.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="188.0" text="LOGIN" />
       <GridPane layoutX="65.0" layoutY="170.0" prefHeight="30.0" prefWidth="206.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.4" minWidth="10.0" prefWidth="72.39999237060547" />
@@ -33,7 +33,7 @@
         </rowConstraints>
          <children>
             <Label text="Nu ai cont?" />
-            <Button fx:id="btn_signup" mnemonicParsing="false" prefHeight="26.0" prefWidth="96.0" text="SIGN UP" GridPane.columnIndex="1" />
+            <Button fx:id="btn_signup" mnemonicParsing="false" onAction="#handleUserPanelClicks" prefHeight="26.0" prefWidth="96.0" text="SIGN UP" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>

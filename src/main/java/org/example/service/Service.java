@@ -23,15 +23,18 @@ public class Service implements Observable<ChangeEvent>{
     private static PrietenieRepoDB friendshipRepo;
     private static InvitationRepoDB invitationRepo;
 
+    private static ParolaRepoDB parolaRepo;
+
     static Map<Long,Integer> viz=new HashMap<Long,Integer>();
     static int maxlen;
     static String users="";
 
-    public Service(Validator val, UtilizatorRepoDB userRepo, PrietenieRepoDB friendshipRepository, MessageRepoDB msgrepo, InvitationRepoDB invRepo) {
+    public Service(Validator val, UtilizatorRepoDB userRepo, PrietenieRepoDB friendshipRepository, MessageRepoDB msgrepo, InvitationRepoDB invRepo, ParolaRepoDB p) {
         this.userRepo = userRepo;
         this.friendshipRepo=friendshipRepository;
         this.messageRepo = msgrepo;
         this.invitationRepo = invRepo;
+        this.parolaRepo = p;
         this.validator = val;
     }
 
@@ -125,10 +128,7 @@ public class Service implements Observable<ChangeEvent>{
     public Optional<Utilizator> cautare_utilizator_username(String username)
     {
         Optional<Utilizator> u = userRepo.findOneUsername(username);
-        if(u.isPresent())
-            return u;
-        else
-            throw new ValidationException("Utilizatorul nu exista");
+        return u;
     }
     public void adaugare_prieten(Long ID, Long fID)
     {
@@ -379,6 +379,23 @@ public class Service implements Observable<ChangeEvent>{
                     }
             );
         }
+    }
+
+
+    public Optional<Parola> cautare_parola(Parola parola) throws ValidationException
+    {
+        Optional<Parola> p = parolaRepo.findOne(new Tuple<>(parola.getUsername(), parola.getParola()));
+        if(p.isPresent())
+            return p;
+        else
+            throw new ValidationException("Parola incorecta!");
+    }
+
+    public void adaugare_parola(String username, String parola)
+    {
+        Parola p = new Parola(parola, username);
+        parolaRepo.save(p);
+        //notify(new ChangeEvent(ChangeEventType.ADD, p));
     }
 
     // functii noi pt observer

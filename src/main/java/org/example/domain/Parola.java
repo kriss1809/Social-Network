@@ -14,11 +14,11 @@ import java.security.SecureRandom;
 public class Parola extends Entity<Long>{
 
     String parola;
-    String Salt;
+    String username;
 
-    public Parola(String parola) {
+    public Parola(String parola, String username) {
         this.parola = parola;
-        this.Salt = generateSalt();
+        this.username = username;
     }
 
     public String getParola() {
@@ -27,6 +27,14 @@ public class Parola extends Entity<Long>{
 
     public void setParola(String parola) {
         this.parola = parola;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -43,31 +51,11 @@ public class Parola extends Entity<Long>{
         return Objects.hash(super.hashCode(), parola);
     }
 
-    public static String generateSalt() {
-        try {
-            // Crearea unui generator de numere aleatoare sigure
-            SecureRandom secureRandom = SecureRandom.getInstanceStrong();
-
-            // Definirea dimensiunii sării (în octeți)
-            int saltLength = 16;
-
-            // Generarea sării aleatoare
-            byte[] salt = new byte[saltLength];
-            secureRandom.nextBytes(salt);
-
-            // Convertirea sării într-un șir de caractere Base64 pentru stocare
-            return Base64.getEncoder().encodeToString(salt);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public String criptare() {
         try {
             // Generare cheie secretă
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(parola.toCharArray(), Salt.getBytes(), 65536, 256);
+            KeySpec spec = new PBEKeySpec(parola.toCharArray(), "Salt".getBytes(), 65536, 256);
             SecretKey tmp = factory.generateSecret(spec);
             SecretKey secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
 
@@ -88,7 +76,7 @@ public class Parola extends Entity<Long>{
         try {
             // Generare cheie secretă
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(parola.toCharArray(), Salt.getBytes(), 65536, 256);
+            KeySpec spec = new PBEKeySpec(parola.toCharArray(), "Salt".getBytes(), 65536, 256);
             SecretKey tmp = factory.generateSecret(spec);
             SecretKey secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
 
