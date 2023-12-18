@@ -59,6 +59,32 @@ public class InvitationRepoDB implements PagingRepository<Tuple<Long,Long>, Invi
         }
     }
 
+    public Iterable<Invitatie> findAllByReceiverId(Long id) {
+        if (id==null)
+        {
+            throw new IllegalArgumentException("Id of entity is  null!");
+        }
+        String findAllStatement="SELECT * FROM invitations" + " WHERE (id_user2=?);";
+        Set<Invitatie> invitatii = new HashSet<>();
+        try
+        {
+            PreparedStatement statement= data.createStatement(findAllStatement);
+            statement.setLong(1,id);
+            ResultSet resultSet=statement.executeQuery();
+            while (resultSet.next())
+            {
+                Invitatie i = getInvitationFromStatement(resultSet);
+                invitatii.add(i);
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return invitatii;
+    }
+
+
     public Iterable<Invitatie> findAll() {
         String findAllStatement="SELECT * FROM invitations";
         Set<Invitatie> invitatii = new HashSet<>();

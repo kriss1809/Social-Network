@@ -4,25 +4,40 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="503.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.UserController">
+<AnchorPane prefHeight="573.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.UserController">
    <children>
-      <VBox prefHeight="503.0" prefWidth="231.0">
+      <VBox layoutY="34.0" prefHeight="527.0" prefWidth="258.0">
          <children>
-            <Label alignment="CENTER" prefHeight="18.0" prefWidth="339.0" text="CERERI DE PRIETENIE" textAlignment="CENTER">
+            <Label alignment="CENTER" prefHeight="18.0" prefWidth="339.0" text="CERERI DE PRIETENIE PRIMITE" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="tbl_prietenii" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="102.6000064611435" text="username" />
-                <TableColumn prefWidth="106.4" text="status prietenie" />
+                <TableColumn fx:id="col_username" prefWidth="102.6000064611435" text="username" />
+                <TableColumn fx:id="col_status" prefWidth="132.80000762939454" text="actiuni" />
               </columns>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </TableView>
+            <Label alignment="CENTER" prefHeight="18.0" prefWidth="357.0" text="INVITA UTILIZATORI ">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TableView fx:id="tbl_invitatii" prefHeight="230.0" prefWidth="237.0">
+              <columns>
+                <TableColumn fx:id="col_username_invitat" prefWidth="114.20001351833344" text="username" />
+                <TableColumn fx:id="col_invita" prefWidth="121.8000259399414" text="actiuni" />
+              </columns>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </TableView>
          </children>
       </VBox>
+      <Label fx:id="label_username" alignment="CENTER" layoutY="14.0" prefHeight="18.0" prefWidth="725.0" text="Esti autentificat ca: Username" textAlignment="CENTER" />
    </children>
 </AnchorPane>

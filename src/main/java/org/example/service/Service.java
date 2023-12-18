@@ -381,6 +381,13 @@ public class Service implements Observable<ChangeEvent>{
         }
     }
 
+    public Iterable<Invitatie> cautare_invitatie(Long id)
+    {
+        Optional<Utilizator> userOptional = userRepo.findOne(id);
+        return invitationRepo.findAllByReceiverId(id);
+
+    }
+
 
     public Optional<Parola> cautare_parola(Parola parola) throws ValidationException
     {

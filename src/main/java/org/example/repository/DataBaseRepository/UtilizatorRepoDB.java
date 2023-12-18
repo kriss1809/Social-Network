@@ -112,7 +112,7 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
 
     @Override
     public Iterable<Utilizator> findAll() {
-        String findAllStatement="SELECT * FROM users";
+        String findAllStatement="SELECT * FROM users WHERE username NOT LIKE 'admin'";
         Set<Utilizator> users=new HashSet<>();
         try
         {
@@ -134,7 +134,7 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
     @Override
     public Page<Utilizator> findAllPage(Pageable pageable)
     {
-        String findAllPageStatement="SELECT * FROM users LIMIT ? OFFSET ?";
+        String findAllPageStatement="SELECT * FROM users WHERE username NOT LIKE 'admin' LIMIT ? OFFSET ?";
         String count = "SELECT COUNT(*) AS count FROM users";
         List<Utilizator> users = new ArrayList<>();
         try
@@ -232,7 +232,7 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
 
 
     public Iterable<Utilizator> utilizatori_string(String text) {
-        String findAllStatement="SELECT * FROM users WHERE first_name like '%" + text + "%' OR last_name like '%" + text + "%'";
+        String findAllStatement="SELECT * FROM users WHERE (first_name like '%" + text + "%' OR last_name like '%" + text + "%') AND username NOT LIKE 'admin'";
         Set<Utilizator> users=new HashSet<>();
         try
         {

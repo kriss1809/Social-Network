@@ -67,41 +67,6 @@ public class StartApplication extends Application {
         ctrl.setService(service);
     }
 
-    private void initView(Stage primaryStage) throws IOException{
-        FXMLLoader stageLoader = new FXMLLoader();
-        stageLoader.setLocation(getClass().getResource("/org/example/views/start-view.fxml"));
-        AnchorPane setLayout = stageLoader.load();
-        primaryStage.setTitle("Autentificare");
-        primaryStage.setScene(new Scene(setLayout, Color.BEIGE));
-
-        StartController ctrl = stageLoader.getController();
-        ctrl.setService(service);
-
-        try
-        {
-            URL resourceUrl = getClass().getResource("/org/example/views/message-view.fxml");
-            FXMLLoader loader=new FXMLLoader();
-            loader.setLocation(resourceUrl);
-
-            AnchorPane root=(AnchorPane) loader.load();
-
-            Stage dialogStage=new Stage();
-            dialogStage.setTitle("Mesaje");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            Scene scene=new Scene(root);
-            dialogStage.setScene(scene);
-
-
-            MessageController msgController = loader.getController();
-            msgController.setService(service);
-            dialogStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-    }
-
     public static void main(String[] args)
     {
         launch(args);
