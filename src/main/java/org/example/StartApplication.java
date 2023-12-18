@@ -5,17 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.controller.LoginController;
-import org.example.controller.MessageController;
-import org.example.controller.StartController;
 import org.example.domain.validators.Validator;
 import org.example.repository.DataBaseRepository.*;
 import org.example.service.Service;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 
 public class StartApplication extends Application {
@@ -50,7 +46,6 @@ public class StartApplication extends Application {
         this.repoParola = new ParolaRepoDB(val, data, "parole");
         this.service = new Service(val, repoUser, repoFriendship, repoMessage, repoInvitation, repoParola);
 
-        //initView(primaryStage);
         init(primaryStage);
         primaryStage.show();
     }

@@ -29,8 +29,8 @@
             </Label>
             <TableView fx:id="tbl_invitatii" prefHeight="230.0" prefWidth="237.0">
               <columns>
-                <TableColumn fx:id="col_username_invitat" prefWidth="114.20001351833344" text="username" />
-                <TableColumn fx:id="col_invita" prefWidth="121.8000259399414" text="actiuni" />
+                <TableColumn fx:id="col_username_invitat" prefWidth="149.4000095129013" text="username" />
+                <TableColumn fx:id="col_invita" prefWidth="87.39999389648438" text="actiuni" />
               </columns>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />

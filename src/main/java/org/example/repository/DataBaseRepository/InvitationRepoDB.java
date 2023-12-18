@@ -1,9 +1,6 @@
 package org.example.repository.DataBaseRepository;
 
-import org.example.domain.Invitatie;
-import org.example.domain.Message;
-import org.example.domain.Prietenie;
-import org.example.domain.Tuple;
+import org.example.domain.*;
 import org.example.domain.validators.Validator;
 import org.example.exceptions.RepositoryException;
 import org.example.utils.events.FriendshipStatusType;
@@ -83,7 +80,6 @@ public class InvitationRepoDB implements PagingRepository<Tuple<Long,Long>, Invi
         }
         return invitatii;
     }
-
 
     public Iterable<Invitatie> findAll() {
         String findAllStatement="SELECT * FROM invitations";

@@ -131,6 +131,32 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
         return users;
     }
 
+    public Iterable<Utilizator> findAllNotInvitedByID(Long ID)
+    {
+        String findAllStatement="\n" +
+                "SELECT * FROM users\n" +
+                "WHERE users.username NOT LIKE 'admin' AND users.id != ? AND users.id NOT IN (SELECT id_user2 FROM invitations WHERE id_user1 = ? )";
+
+        Set<Utilizator> users=new HashSet<>();
+        try
+        {
+            PreparedStatement statement= data.createStatement(findAllStatement);
+            statement.setLong(1, ID);
+            statement.setLong(2, ID);
+            ResultSet resultSet=statement.executeQuery();
+            while (resultSet.next())
+            {
+                Long id = resultSet.getLong("id");
+                users.add(getUtilizator(resultSet,id).get());
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return users;
+    }
+
     @Override
     public Page<Utilizator> findAllPage(Pageable pageable)
     {

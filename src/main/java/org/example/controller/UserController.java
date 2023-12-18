@@ -14,6 +14,7 @@ import org.example.domain.Message;
 import org.example.domain.Utilizator;
 import org.example.service.Service;
 import org.example.utils.events.ChangeEvent;
+import org.example.utils.events.FriendshipStatusType;
 import org.example.utils.observer.Observer;
 
 import java.util.*;
@@ -37,13 +38,12 @@ public class UserController implements Observer<ChangeEvent> {
     private Map<Utilizator, Invitatie> friendshipMap = new HashMap<>();
 
     @FXML
-    private TableView<Map.Entry<Utilizator, Invitatie>> tbl_invitatii;
+    private TableView<Utilizator> tbl_invitatii;
     @FXML
-    private TableColumn<Map.Entry<Utilizator, Invitatie>, String> col_username_invitat;
+    private TableColumn<Utilizator, String> col_username_invitat;
     @FXML
-    private TableColumn<Map.Entry<Utilizator, Invitatie>, String> col_invita;
-    public ObservableList<Map.Entry<Utilizator, Invitatie>> invitationsModel = FXCollections.observableArrayList();
-    private Map<Utilizator, Invitatie> invitationsMap = new HashMap<>();
+    private TableColumn<Utilizator, String> col_invita;
+    public ObservableList<Utilizator> invitationsModel = FXCollections.observableArrayList();
 
     public void setService(Service service, String username) {
         this.service = service;
@@ -51,6 +51,7 @@ public class UserController implements Observer<ChangeEvent> {
         this.label_username.setText("Esti autentificat ca: " + username);
         this.username = username;
         initFriendsModel();
+        initInvitationsModel();
     }
 
     @Override
@@ -103,11 +104,21 @@ public class UserController implements Observer<ChangeEvent> {
     }
 
     private void handleAcceptButton(int index) {
-        // Handle accept button click for the row at index
+        Optional<Utilizator> currentuser = service.cautare_utilizator_username(username);
+        if (index >= 0 && index < friendsModel.size()) {
+            Utilizator selectedItem = friendsModel.get(index).getKey();
+            service.modificare_invitatie(selectedItem.getId(), currentuser.get().getId(), FriendshipStatusType.accepted);
+            initFriendsModel();
+        }
     }
 
     private void handleRejectButton(int index) {
-        // Handle reject button click for the row at index
+        Optional<Utilizator> currentuser = service.cautare_utilizator_username(username);
+        if (index >= 0 && index < friendsModel.size()) {
+            Utilizator selectedItem = friendsModel.get(index).getKey();
+            service.modificare_invitatie(selectedItem.getId(), currentuser.get().getId(), FriendshipStatusType.rejected);
+            initFriendsModel();
+        }
     }
 
     private void initFriendsModel() {
@@ -122,7 +133,7 @@ public class UserController implements Observer<ChangeEvent> {
 
             for (Invitatie invitatie : invList) {
                 Utilizator friend = service.cautare_utilizator(invitatie.getId1()).orElse(null);
-                if (friend != null) {
+                if (friend != null && invitatie.getStatus().equals(FriendshipStatusType.pending)) {
                     friendshipMap.put(friend, invitatie);
                 }
                 else
@@ -134,16 +145,8 @@ public class UserController implements Observer<ChangeEvent> {
     }
 
     private void initializeTableInvitations() {
-        col_username_invitat.setCellValueFactory(param -> {
-            Utilizator utilizator = param.getValue().getKey();
-            return new SimpleStringProperty(utilizator != null ? utilizator.getUsername() : "");
-        });
-
-        col_invita.setCellValueFactory(param -> {
-            Invitatie invitatie = param.getValue().getValue();
-            return new SimpleStringProperty(invitatie == null ? invitatie.getStatus() : "Not friends");
-        });
-
+        col_username_invitat.setCellValueFactory(new PropertyValueFactory<>("username"));
+        col_invita.setCellValueFactory(new PropertyValueFactory<>("username"));
         col_invita.setCellFactory(param -> new TableCell<>() {
             private final Button inviteButton = new Button("Invite");
             {
@@ -167,21 +170,23 @@ public class UserController implements Observer<ChangeEvent> {
         tbl_invitatii.setItems(invitationsModel);
     }
     private void handleInviteButton(int index) {
-        // Handle invite button click for the row at index
+        Optional<Utilizator> currentuser = service.cautare_utilizator_username(username);
+        if (index >= 0 && index < invitationsModel.size()) {
+            Utilizator selectedItem = invitationsModel.get(index);
+            service.adaugare_invitatie(currentuser.get().getId(), selectedItem.getId(), FriendshipStatusType.pending);
+            initInvitationsModel();
+        }
     }
 
     private void initInvitationsModel() {
+        Optional<Utilizator> utilizatorOptional = service.cautare_utilizator_username(username);
+        if (utilizatorOptional.isPresent()) {
+            Utilizator currentUser = utilizatorOptional.get();
 
+            Iterable<Utilizator> utilizatori = service.cautare_utilizatori_neinvitati(currentUser.getId());
+            List<Utilizator> List = StreamSupport.stream(utilizatori.spliterator(),false).collect(Collectors.toList());
+            invitationsModel.setAll(List);
+        }
     }
-
-
-
-    @FXML
-    private void handleUserPanelClicks(ActionEvent event)
-    {
-
-            ;
-    }
-
 
 }

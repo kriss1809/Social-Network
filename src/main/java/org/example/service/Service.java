@@ -383,9 +383,13 @@ public class Service implements Observable<ChangeEvent>{
 
     public Iterable<Invitatie> cautare_invitatie(Long id)
     {
-        Optional<Utilizator> userOptional = userRepo.findOne(id);
         return invitationRepo.findAllByReceiverId(id);
 
+    }
+
+    public Iterable<Utilizator> cautare_utilizatori_neinvitati(Long id)
+    {
+        return userRepo.findAllNotInvitedByID(id);
     }
 
 
