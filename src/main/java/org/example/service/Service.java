@@ -430,7 +430,6 @@ public class Service implements Observable<ChangeEvent>{
     {
         Parola p = new Parola(parola, username);
         parolaRepo.save(p);
-        //notify(new ChangeEvent(ChangeEventType.ADD, p));
     }
 
     // functii noi pt observer
@@ -446,7 +445,7 @@ public class Service implements Observable<ChangeEvent>{
     }
     @Override
     public void notify(ChangeEvent t) {
-        observers.stream().forEach(x->x.update(t));
+        observers.forEach(observer -> observer.update(t, this));
     }
 
 }

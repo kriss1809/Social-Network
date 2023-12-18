@@ -38,8 +38,8 @@ public class SignupController implements Observer<ChangeEvent> {
     }
 
     @Override
-    public void update(ChangeEvent changeEvent) {
-
+    public void update(ChangeEvent changeEvent, Service updated_service) {
+        this.service = updated_service;
     }
 
     @FXML

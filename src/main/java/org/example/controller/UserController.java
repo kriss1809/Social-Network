@@ -69,11 +69,13 @@ public class UserController implements Observer<ChangeEvent> {
     }
 
     @Override
-    public void update(ChangeEvent changeEvent) {
+    public void update(ChangeEvent changeEvent, Service updated_service) {
+        this.service = updated_service;
         initFriendsModel();
         initInvitationsModel();
+        ObservableList<String> prieteni = FXCollections.observableArrayList(getFriendsForUser(username));
+        cb_prieteni.setItems(prieteni);
     }
-
     @FXML
     public void initialize() {
         initializeTableFriends();
@@ -239,18 +241,20 @@ public class UserController implements Observer<ChangeEvent> {
     {
         String text = input_mesaj.getText();
         Long raspuns = null;
+
         String username_prieten = cb_prieteni.getValue().toString();
-        Optional<Utilizator> prietenoptional = service.cautare_utilizator_username(username_prieten);
-        if(prietenoptional.isPresent())
-        {
-            Utilizator prieten = prietenoptional.get();
-            Utilizator currentuser = service.cautare_utilizator_username(username).get();
-            service.adaugare_mesaj(currentuser.getId(), prieten.getId(), text, LocalDateTime.now(), raspuns);
+        if(username_prieten != null) {
+            Optional<Utilizator> prietenoptional = service.cautare_utilizator_username(username_prieten);
+            if (prietenoptional.isPresent()) {
+                Utilizator prieten = prietenoptional.get();
+                Utilizator currentuser = service.cautare_utilizator_username(username).get();
+                service.adaugare_mesaj(currentuser.getId(), prieten.getId(), text, LocalDateTime.now(), raspuns);
 
-            gui_deschidere_conversatie();
+                gui_deschidere_conversatie();
+            }
+
+            input_mesaj.setText("");
         }
-
-        input_mesaj.setText("");
     }
 
 }

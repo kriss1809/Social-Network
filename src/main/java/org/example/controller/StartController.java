@@ -302,7 +302,8 @@ public class StartController implements Observer<ChangeEvent> {
     }
 
     @Override
-    public void update(ChangeEvent ChangeEvent) {
+    public void update(ChangeEvent ChangeEvent, Service updated_service) {
+        this.service = updated_service;
         //initUsersModel();
         initUsersModelPage();
         //initFriendshipsModel();

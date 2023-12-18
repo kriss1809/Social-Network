@@ -245,7 +245,6 @@ public class MessageRepoDB implements PagingRepository<Long, Message>{
             while (resultSet.next())
             {
                 Message m = getMessageFromStatement(resultSet);
-                System.out.println(m.getData());
                 msgs.add(m);
             }
         }
