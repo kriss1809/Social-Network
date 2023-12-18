@@ -1,9 +1,6 @@
 package org.example.repository.DataBaseRepository;
 
-import org.example.domain.Message;
-import org.example.domain.Prietenie;
-import org.example.domain.Tuple;
-import org.example.domain.Utilizator;
+import org.example.domain.*;
 import org.example.domain.validators.Validator;
 import org.example.exceptions.RepositoryException;
 
@@ -84,8 +81,26 @@ public class MessageRepoDB implements PagingRepository<Long, Message>{
     }
 
     @Override
-    public Optional<Message> findOne(Long aLong) {
-        return Optional.empty();
+    public Optional<Message> findOne(Long id) {
+        if (id==null)
+        {
+            throw new IllegalArgumentException("Id of entity is  null!");
+        }
+        String findOneStatement="SELECT * FROM messages  WHERE id = ?";
+        try
+        {
+            PreparedStatement statement=data.createStatement(findOneStatement);
+            statement.setLong(1,id);
+            ResultSet resultSet=statement.executeQuery();
+            if(resultSet.next())
+            {
+                Message m  = getMessageFromStatement(resultSet);
+                return Optional.of(m);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Iterable<Message> findAll() {
@@ -240,5 +255,4 @@ public class MessageRepoDB implements PagingRepository<Long, Message>{
         }
         return msgs;
     }
-
 }

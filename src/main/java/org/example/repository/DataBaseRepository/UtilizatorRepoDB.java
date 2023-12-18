@@ -157,6 +157,64 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
         return users;
     }
 
+    public Iterable<Utilizator> findAllPending(Long ID)
+    {
+        String findAllStatement="\n" +
+                "SELECT * FROM users\n" +
+                "WHERE users.username NOT LIKE 'admin' AND users.id != ? AND users.id IN (SELECT id_user1 FROM invitations WHERE id_user2 = ? AND status LIKE 'pending')";
+
+        Set<Utilizator> users=new HashSet<>();
+        try
+        {
+            PreparedStatement statement= data.createStatement(findAllStatement);
+            statement.setLong(1, ID);
+            statement.setLong(2, ID);
+            ResultSet resultSet=statement.executeQuery();
+            while (resultSet.next())
+            {
+                Long id = resultSet.getLong("id");
+                users.add(getUtilizator(resultSet,id).get());
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return users;
+    }
+
+    public Iterable<String> findAllFriendsForUser(Long ID)
+    {
+        String findAllStatement=
+                "SELECT u.id, u.first_name, u.last_name, u.username " +
+                        "FROM friendship f " +
+                        "JOIN users u ON (f.id_user1 = u.id OR f.id_user2 = u.id) " +
+                        "WHERE f.id_user1 = ? OR f.id_user2 = ? " +
+                "EXCEPT " +
+                "SELECT u.id, u.first_name, u.last_name, u.username " +
+                "FROM users u WHERE u.id = ? ";
+
+        Set<String> users=new HashSet<>();
+        try
+        {
+            PreparedStatement statement= data.createStatement(findAllStatement);
+            statement.setLong(1, ID);
+            statement.setLong(2, ID);
+            statement.setLong(3, ID);
+            ResultSet resultSet=statement.executeQuery();
+            while (resultSet.next())
+            {
+                Long id = resultSet.getLong("id");
+                users.add(getUtilizator(resultSet,id).get().getUsername());
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return users;
+    }
+
     @Override
     public Page<Utilizator> findAllPage(Pageable pageable)
     {

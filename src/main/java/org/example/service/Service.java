@@ -305,6 +305,15 @@ public class Service implements Observable<ChangeEvent>{
 
     }
 
+    public Optional<Message> cautare_mesaj(Long id)
+    {
+        Optional<Message> m = messageRepo.findOne(id);
+        if(m.isPresent())
+            return m;
+        else
+            throw new ValidationException("Mesajul nu exista");
+    }
+
     public static String afisare_mesaje(Long id_user1, Long id_user2)
     {
         Iterable<Message> msgs =  messageRepo.conversatii_utilizatori(id_user1, id_user2);
@@ -316,6 +325,11 @@ public class Service implements Observable<ChangeEvent>{
         }
 
         return result.toString();
+    }
+
+    public static Iterable<Message> afisare_lista_mesaje(Long id_user1, Long id_user2)
+    {
+        return messageRepo.conversatii_utilizatori(id_user1, id_user2);
     }
 
 
@@ -390,6 +404,16 @@ public class Service implements Observable<ChangeEvent>{
     public Iterable<Utilizator> cautare_utilizatori_neinvitati(Long id)
     {
         return userRepo.findAllNotInvitedByID(id);
+    }
+
+    public Iterable<Utilizator> cautare_utilizatori_pending(Long id)
+    {
+        return userRepo.findAllPending(id);
+    }
+
+    public Iterable<String> getFriendsForUser(Long id)
+    {
+        return userRepo.findAllFriendsForUser(id);
     }
 
 

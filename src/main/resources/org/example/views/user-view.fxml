@@ -39,5 +39,30 @@
          </children>
       </VBox>
       <Label fx:id="label_username" alignment="CENTER" layoutY="14.0" prefHeight="18.0" prefWidth="725.0" text="Esti autentificat ca: Username" textAlignment="CENTER" />
+      <VBox layoutX="271.0" layoutY="40.0" prefHeight="502.0" prefWidth="440.0">
+         <children>
+            <HBox prefHeight="37.0" prefWidth="440.0">
+               <children>
+                  <Label text="Converseaza cu prietenii tai:" />
+                  <ComboBox fx:id="cb_prieteni" prefWidth="150.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ComboBox>
+                  <Button fx:id="btn_deschidere_conversatie" mnemonicParsing="false" onAction="#handleMessagePanelClicks" prefHeight="26.0" prefWidth="135.0" text="Deschide conversatia">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <TextArea fx:id="text_area_mesaje" prefHeight="396.0" prefWidth="440.0" />
+            <Button fx:id="btn_trimite_mesaj" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleMessagePanelClicks" prefHeight="26.0" prefWidth="57.0" text="Trimite" textAlignment="RIGHT">
+               <VBox.margin>
+                  <Insets left="380.0" />
+               </VBox.margin></Button>
+            <TextArea fx:id="input_mesaj" prefHeight="81.0" prefWidth="375.0" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
