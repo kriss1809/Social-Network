@@ -11,9 +11,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import org.example.domain.Message;
 import org.example.domain.Utilizator;
+import org.example.domain.validators.ValidationException;
 import org.example.service.Service;
 import org.example.utils.events.ChangeEvent;
 import org.example.utils.events.FriendshipStatusType;
+import org.example.utils.observer.Observable;
 import org.example.utils.observer.Observer;
 
 import java.time.LocalDateTime;
@@ -54,6 +56,8 @@ public class UserController implements Observer<ChangeEvent> {
     private Button btn_trimite_mesaj;
     @FXML
     private TextArea input_mesaj;
+    @FXML
+    private TextField input_id_mesaj_raspuns;
 
 
     public void setService(Service service, String username) {
@@ -75,6 +79,7 @@ public class UserController implements Observer<ChangeEvent> {
         initInvitationsModel();
         ObservableList<String> prieteni = FXCollections.observableArrayList(getFriendsForUser(username));
         cb_prieteni.setItems(prieteni);
+        gui_deschidere_conversatie();
     }
     @FXML
     public void initialize() {
@@ -120,6 +125,8 @@ public class UserController implements Observer<ChangeEvent> {
             service.modificare_invitatie(selectedItem.getId(), currentuser.get().getId(), FriendshipStatusType.accepted);
             initFriendsModel();
             initInvitationsModel();
+            ObservableList<String> prieteni = FXCollections.observableArrayList(getFriendsForUser(username));
+            cb_prieteni.setItems(prieteni);
         }
     }
 
@@ -130,6 +137,8 @@ public class UserController implements Observer<ChangeEvent> {
             service.modificare_invitatie(selectedItem.getId(), currentuser.get().getId(), FriendshipStatusType.rejected);
             initFriendsModel();
             initInvitationsModel();
+            ObservableList<String> prieteni = FXCollections.observableArrayList(getFriendsForUser(username));
+            cb_prieteni.setItems(prieteni);
         }
     }
 
@@ -176,6 +185,8 @@ public class UserController implements Observer<ChangeEvent> {
             service.adaugare_invitatie(currentuser.get().getId(), selectedItem.getId(), FriendshipStatusType.pending);
             initInvitationsModel();
             initFriendsModel();
+            ObservableList<String> prieteni = FXCollections.observableArrayList(getFriendsForUser(username));
+            cb_prieteni.setItems(prieteni);
         }
     }
 
@@ -209,10 +220,13 @@ public class UserController implements Observer<ChangeEvent> {
 
     private void gui_deschidere_conversatie()
     {
-        String username_prieten = cb_prieteni.getValue().toString();
-        Optional<Utilizator> prietenoptional = service.cautare_utilizator_username(username_prieten);
-        if(prietenoptional.isPresent())
+        String username_prieten;
+        Object obj_username_prieten = cb_prieteni.getValue();
+        if(obj_username_prieten != null)
         {
+            username_prieten = obj_username_prieten.toString();
+            Optional<Utilizator> prietenoptional = service.cautare_utilizator_username(username_prieten);
+
             Utilizator prieten = prietenoptional.get();
             Utilizator currentuser = service.cautare_utilizator_username(username).get();
             Iterable<Message> conversatie = service.afisare_lista_mesaje(currentuser.getId(), prieten.getId());
@@ -223,7 +237,7 @@ public class UserController implements Observer<ChangeEvent> {
                 Long id =  lista_mesaje.get(i).getFrom();
                 String from = service.cautare_utilizator(id).get().getUsername();
 
-                mesaje += from + ": " + lista_mesaje.get(i).getMessage();
+                mesaje += "(id mesaj: " + lista_mesaje.get(i).getId() + ") " + from + ": " + lista_mesaje.get(i).getMessage();
 
                 Long id_reply = lista_mesaje.get(i).getReply();
                 if(id_reply!=-1) {
@@ -241,19 +255,59 @@ public class UserController implements Observer<ChangeEvent> {
     {
         String text = input_mesaj.getText();
         Long raspuns = null;
+        String string_id_mesaj = input_id_mesaj_raspuns.getText();
+        try
+        {
+            raspuns = Long.parseLong(string_id_mesaj);
 
-        String username_prieten = cb_prieteni.getValue().toString();
-        if(username_prieten != null) {
-            Optional<Utilizator> prietenoptional = service.cautare_utilizator_username(username_prieten);
-            if (prietenoptional.isPresent()) {
-                Utilizator prieten = prietenoptional.get();
-                Utilizator currentuser = service.cautare_utilizator_username(username).get();
-                service.adaugare_mesaj(currentuser.getId(), prieten.getId(), text, LocalDateTime.now(), raspuns);
-
-                gui_deschidere_conversatie();
+            Object obj_username_prieten = cb_prieteni.getValue();
+            if(obj_username_prieten!=null) {
+                String username_prieten = obj_username_prieten.toString();
+                if (username_prieten != null) {
+                    Optional<Utilizator> prietenoptional = service.cautare_utilizator_username(username_prieten);
+                    if (prietenoptional.isPresent()) {
+                        Utilizator prieten = prietenoptional.get();
+                        Utilizator currentuser = service.cautare_utilizator_username(username).get();
+                        if (raspuns != null) {
+                            boolean verificare = verifica_id_mesaj(raspuns, currentuser, prieten);
+                            if (verificare == true)
+                                service.adaugare_mesaj(currentuser.getId(), prieten.getId(), text, LocalDateTime.now(), raspuns);
+                        } else
+                            service.adaugare_mesaj(currentuser.getId(), prieten.getId(), text, LocalDateTime.now(), raspuns);
+                        gui_deschidere_conversatie();
+                    }
+                }
             }
+            else
+                MessageAlert.showMessage(null,Alert.AlertType.ERROR,"Eroare","Nu ati deschis nicio conversatie");
 
-            input_mesaj.setText("");
+
+        }
+        catch (NumberFormatException e)
+        {
+            MessageAlert.showMessage(null,Alert.AlertType.ERROR,"Eroare", "Nu ati introdus un numar valid.");
+        }
+
+        input_mesaj.setText("");
+        input_id_mesaj_raspuns.setText("");
+    }
+
+    private boolean verifica_id_mesaj(Long id, Utilizator curent, Utilizator prieten)
+    {
+        try {
+            Message m = service.cautare_mesaj(id).get();
+            if((m.getTo() == curent.getId() && m.getFrom() == prieten.getId()) || (m.getTo()==prieten.getId() && m.getFrom()==curent.getId()))
+                return true;
+            else
+            {
+                MessageAlert.showMessage(null,Alert.AlertType.ERROR,"Eroare","Nu exista mesajul cu id dat in conversatie");
+                return false;
+            }
+        }
+        catch (ValidationException e)
+        {
+            MessageAlert.showMessage(null,Alert.AlertType.ERROR,"Mesajul nu exista",e.getMessage());
+            return false;
         }
     }
 

@@ -133,9 +133,10 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
 
     public Iterable<Utilizator> findAllNotInvitedByID(Long ID)
     {
+        // utilizatorii care nu au primit nicio invitatie de la utilizatorul curent SAU nu au trimis nicio invitatie utilizatorului curent
         String findAllStatement="\n" +
                 "SELECT * FROM users\n" +
-                "WHERE users.username NOT LIKE 'admin' AND users.id != ? AND users.id NOT IN (SELECT id_user2 FROM invitations WHERE id_user1 = ? )";
+                "WHERE users.username NOT LIKE 'admin' AND users.id != ? AND users.id NOT IN ((SELECT id_user2 FROM invitations WHERE id_user1 = ?) UNION (SELECT id_user1 FROM invitations WHERE id_user2 = ?) )";
 
         Set<Utilizator> users=new HashSet<>();
         try
@@ -143,6 +144,7 @@ public class UtilizatorRepoDB extends AbstractDBRepository<Long, Utilizator> imp
             PreparedStatement statement= data.createStatement(findAllStatement);
             statement.setLong(1, ID);
             statement.setLong(2, ID);
+            statement.setLong(3, ID);
             ResultSet resultSet=statement.executeQuery();
             while (resultSet.next())
             {
