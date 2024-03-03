@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="346.0" prefWidth="291.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.FriendsListController">
+   <children>
+      <VBox layoutX="14.0" layoutY="14.0" prefHeight="341.0" prefWidth="264.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="283.0" text="Selecteaza prietenii" textAlignment="CENTER" />
+            <ListView fx:id="lista_prieteni" prefHeight="258.0" prefWidth="264.0">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ListView>
+            <Button fx:id="btn_trimitere_mesaje" mnemonicParsing="false" onAction="#handleUserPanelClicks" text="Trimite">
+               <VBox.margin>
+                  <Insets left="100.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

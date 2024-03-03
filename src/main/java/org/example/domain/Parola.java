@@ -67,28 +67,28 @@ public class Parola extends Entity<Long>{
             // Convertire în reprezentare base64
             return Base64.getEncoder().encodeToString(encrypted);
         } catch (Exception e) {
-            e.printStackTrace(); // Tratarea erorilor
+            e.printStackTrace();
             return null;
         }
     }
 
-    public String decriptare(String parolaCriptata) {
-        try {
-            // Generare cheie secretă
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(parola.toCharArray(), "Salt".getBytes(), 65536, 256);
-            SecretKey tmp = factory.generateSecret(spec);
-            SecretKey secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
-
-            // Decriptare
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(parolaCriptata));
-
-            return new String(decrypted);
-        } catch (Exception e) {
-            e.printStackTrace(); // Tratarea erorilor
-            return null;
-        }
-    }
+//    public String decriptare(String parolaCriptata) {
+//        try {
+//            // Generare cheie secretă
+//            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+//            KeySpec spec = new PBEKeySpec(parola.toCharArray(), "Salt".getBytes(), 65536, 256);
+//            SecretKey tmp = factory.generateSecret(spec);
+//            SecretKey secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+//
+//            // Decriptare
+//            Cipher cipher = Cipher.getInstance("AES");
+//            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+//            byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(parolaCriptata));
+//
+//            return new String(decrypted);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 }

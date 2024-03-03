@@ -5,10 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import org.example.domain.Message;
 import org.example.domain.Utilizator;
 import org.example.domain.validators.ValidationException;
@@ -18,6 +22,7 @@ import org.example.utils.events.FriendshipStatusType;
 import org.example.utils.observer.Observable;
 import org.example.utils.observer.Observer;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,6 +63,8 @@ public class UserController implements Observer<ChangeEvent> {
     private TextArea input_mesaj;
     @FXML
     private TextField input_id_mesaj_raspuns;
+    @FXML
+    private Button btn_trimite_mesaje;
 
 
     public void setService(Service service, String username) {
@@ -216,6 +223,8 @@ public class UserController implements Observer<ChangeEvent> {
             gui_deschidere_conversatie();
         if(event.getSource()==btn_trimite_mesaj)
             gui_adaugare_mesaj();
+        if(event.getSource()==btn_trimite_mesaje)
+            gui_afisare_prieteni_trimitere_mesaj();
     }
 
     private void gui_deschidere_conversatie()
@@ -309,6 +318,34 @@ public class UserController implements Observer<ChangeEvent> {
             MessageAlert.showMessage(null,Alert.AlertType.ERROR,"Mesajul nu exista",e.getMessage());
             return false;
         }
+    }
+
+    private void gui_afisare_prieteni_trimitere_mesaj() {
+        String mesaj = input_mesaj.getText();
+        List<String> lista_prieteni = getFriendsForUser(username);
+        if (lista_prieteni.isEmpty())
+            MessageAlert.showMessage(null, Alert.AlertType.ERROR, "Eroare", "Nu aveti niciun prieten!");
+        else if (mesaj.equals(""))
+            MessageAlert.showMessage(null, Alert.AlertType.ERROR,"Eroare","Nu ati introdus niciun mesaj");
+        else {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/org/example/views/friends-list-view.fxml"));
+                Parent friendsListView = loader.load();
+
+                Stage stage = new Stage();
+                stage.setTitle("Selecteaza prieteni");
+                stage.setScene(new Scene(friendsListView));
+
+                FriendsListController ctrl = loader.getController();
+                ctrl.setService(service, mesaj, lista_prieteni, username);
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        input_mesaj.setText("");
     }
 
 }
